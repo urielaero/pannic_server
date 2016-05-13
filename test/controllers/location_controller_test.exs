@@ -2,7 +2,7 @@ defmodule PannicServer.LocationControllerTest do
   use PannicServer.ConnCase
 
   alias PannicServer.Location
-  @valid_attrs %{latitude: "some content", longitude: "some content", user: "some content"}
+  @valid_attrs %{latitude: "some content", longitude: "some content", user: "some content", pannic: "uuid-1"}
   @invalid_attrs %{}
 
   setup do

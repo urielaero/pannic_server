@@ -3,7 +3,7 @@ defmodule PannicServer.LocationTest do
 
   alias PannicServer.Location
 
-  @valid_attrs %{latitude: "some content", longitude: "some content", user: "some content"}
+  @valid_attrs %{latitude: "some content", longitude: "some content", user: "some content", pannic: "uuid-1"}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

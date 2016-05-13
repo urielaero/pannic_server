@@ -5,11 +5,12 @@ defmodule PannicServer.Location do
     field :user, :string
     field :latitude, :string
     field :longitude, :string
+    field :pannic, :string
     timestamps
   end
 
-  @required_fields ~w(latitude longitude)
-  @optional_fields ~w(user)
+  @required_fields ~w(latitude longitude pannic user)
+  @optional_fields ~w()
 
   @doc """
   Creates a changeset based on the `model` and `params`.
