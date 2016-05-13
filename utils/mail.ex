@@ -1,6 +1,6 @@
 defmodule Util.Mailer do
-  @config domain: Application.get_env(:pannic, :mailgun_domain),
-          key: Application.get_env(:pannic, :mailgun_key),
+  @config domain: Application.get_env(:pannic_server, :mailgun_domain),
+          key: Application.get_env(:pannic_server, :mailgun_key),
           httpc_opts: [connect_timeout: 4000, timeout: 5000]
 
   use Mailgun.Client, @config
