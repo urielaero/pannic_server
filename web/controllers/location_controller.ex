@@ -3,6 +3,7 @@ defmodule PannicServer.LocationController do
 
   alias PannicServer.Location
 
+  @mailer_api Application.get_env(:pannic_server, :mailer_api) 
 
   def index(conn, _params) do
     locations = Repo.all(Location)
@@ -19,6 +20,7 @@ defmodule PannicServer.LocationController do
 
     case Repo.insert(changeset) do
       {:ok, location} ->
+        notify(location)
         conn
         |> put_status(:created)
         |> put_resp_header("location", location_path(conn, :show, location))
@@ -57,5 +59,23 @@ defmodule PannicServer.LocationController do
     Repo.delete!(location)
 
     send_resp(conn, :no_content, "")
+  end
+
+  defp notify(location) do
+    if @mailer_api.in_memory? do 
+      do_notify(location)
+    else
+      spawn_link fn -> 
+        do_notify(location)
+      end
+    end
+  end
+
+  defp do_notify(location) do
+    if Location.only_one_pannic?(location) do
+      url = "Se activo el boton de panico, por favor ingresa  <a href='reepsy.com/?user=#{location.user}&pannic=#{location.pannic}'>aquí</a>"
+    
+      @mailer_api.send_notify(location.user, "ALERTA", url)
+    end
   end
 end

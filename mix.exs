@@ -23,8 +23,8 @@ defmodule PannicServer.Mixfile do
   end
 
   # Specifies which paths to compile per environment.
-  defp elixirc_paths(:test), do: ["lib", "web", "test/support"]
-  defp elixirc_paths(_),     do: ["lib", "web"]
+  defp elixirc_paths(:test), do: ["lib", "web", "utils", "test/support"]
+  defp elixirc_paths(_),     do: ["lib", "web", "utils"]
 
   # Specifies your project dependencies.
   #
@@ -37,6 +37,7 @@ defmodule PannicServer.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:mix_test_watch, "~> 0.2", only: :dev},
      {:cors_plug, "~> 0.1.4"},
+     {:mailgun, "~> 0.1.2"},
      {:cowboy, "~> 1.0"}]
   end
 

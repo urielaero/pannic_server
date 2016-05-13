@@ -37,3 +37,7 @@ config :pannic_server, PannicServer.Repo,
   adapter: Mongo.Ecto,
   database: "pannic_server_dev",
   pool_size: 10
+
+config :pannic_server, mailgun_domain: System.get_env("MAILGUN_DOMAIN"), mailgun_key: System.get_env("MAILGUN_KEY")
+
+config :pannic_server, mailer_api: Util.Mailer

@@ -14,3 +14,5 @@ config :pannic_server, PannicServer.Repo,
   adapter: Mongo.Ecto,
   database: "pannic_server_test",
   pool_size: 1
+
+config :pannic_server, mailer_api: Util.Mailer.InMemory

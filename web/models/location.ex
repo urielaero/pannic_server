@@ -1,6 +1,11 @@
 defmodule PannicServer.Location do
   use PannicServer.Web, :model
 
+  import Ecto.Query
+
+  alias PannicServer.Location
+  alias PannicServer.Repo
+
   schema "locations" do
     field :user, :string
     field :latitude, :string
@@ -21,5 +26,13 @@ defmodule PannicServer.Location do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+  end
+
+  def only_one_pannic?(location) do
+    counts = (from loc in Location, where: loc.pannic == ^location.pannic)
+      |> Repo.all
+      |> length
+    
+    counts == 1
   end
 end

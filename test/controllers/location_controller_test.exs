@@ -2,10 +2,13 @@ defmodule PannicServer.LocationControllerTest do
   use PannicServer.ConnCase
 
   alias PannicServer.Location
-  @valid_attrs %{latitude: "some content", longitude: "some content", user: "some content", pannic: "uuid-1"}
+  @valid_attrs %{latitude: "some content", longitude: "some content", user: "some@content.com", pannic: "uuid-1"}
   @invalid_attrs %{}
 
+  @mailer_api Util.Mailer.InMemory
+
   setup do
+    @mailer_api.start_link
     conn = conn() |> put_req_header("accept", "application/json")
     {:ok, conn: conn}
   end
@@ -60,5 +63,19 @@ defmodule PannicServer.LocationControllerTest do
     conn = delete conn, location_path(conn, :delete, location)
     assert response(conn, 204)
     refute Repo.get(Location, location.id)
+  end
+
+  test "notify only once time by pannic field", %{conn: conn} do
+    attrs = @valid_attrs |> Dict.put(:pannic, "pa-1")
+    conn = post conn, location_path(conn, :create), attrs 
+    assert json_response(conn, 201)["data"]["id"]
+    assert @mailer_api.get_inbox(attrs.user)
+    conn = post conn, location_path(conn, :create), attrs
+    assert json_response(conn, 201)["data"]["id"]
+    refute @mailer_api.get_inbox(attrs.user)
+    attrs = attrs |> Dict.put(:pannic, "pa-2")
+    conn = post conn, location_path(conn, :create), attrs
+    assert json_response(conn, 201)["data"]["id"]
+    assert @mailer_api.get_inbox(attrs.user)
   end
 end
