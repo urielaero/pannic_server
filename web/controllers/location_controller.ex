@@ -73,7 +73,7 @@ defmodule PannicServer.LocationController do
 
   defp do_notify(location) do
     if Location.only_one_pannic?(location) do
-      url = "Se activo el boton de panico, por favor ingresa <a href='localhost:8080/#/home?user=#{location.user}&pannic=#{location.pannic}'>aquí</a>"
+      url = "Se activo el boton de panico, por favor ingresa <a href='http://localhost:8080/#/home?user=#{location.user}&pannic=#{location.pannic}'>aquí</a> <br/> o copia y pega: http://localhost:8080/#/home?user=#{location.user}&pannic=#{location.pannic}"
     
       @mailer_api.send_notify(location.user, "ALERTA", url)
     end
