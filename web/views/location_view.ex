@@ -13,6 +13,7 @@ defmodule PannicServer.LocationView do
     %{id: location.id,
       user: location.user,
       latitude: location.latitude,
-      longitude: location.longitude}
+      longitude: location.longitude,
+      pannic: location.pannic}
   end
 end

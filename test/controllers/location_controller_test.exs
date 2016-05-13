@@ -21,7 +21,8 @@ defmodule PannicServer.LocationControllerTest do
     assert json_response(conn, 200)["data"] == %{"id" => location.id,
       "user" => location.user,
       "latitude" => location.latitude,
-      "longitude" => location.longitude}
+      "longitude" => location.longitude,
+      "pannic" => location.pannic}
   end
 
   test "does not show resource and instead throw error when id is nonexistent", %{conn: conn} do
